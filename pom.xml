@@ -170,10 +170,8 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
-                    <propertyExpansion>
-                        suppressionsFile=${maven.multiModuleProjectDirectory}/checkstyle.suppressions.xml
-                    </propertyExpansion>
+                    <configLocation>.checkstyle/checkstyle.xml</configLocation>
+                    <propertyExpansion>suppressionsFile=.checkstyle/checkstyle.suppressions.xml</propertyExpansion>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
