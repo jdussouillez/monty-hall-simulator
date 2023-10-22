@@ -354,7 +354,7 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="scope" value="private"/>
-            <property name="allowedAnnotations" value="Override, Test, BeforeEach, AfterEach, BeforeAll, AfterAll"/>
+            <property name="allowedAnnotations" value="Override, Test, ParameterizedTest, RepeatedTest, BeforeEach, AfterEach, BeforeAll, AfterAll"/>
         </module>
         <module name="RequireEmptyLineBeforeBlockTagGroup"/>
         <module name="JavadocContentLocation"/>
