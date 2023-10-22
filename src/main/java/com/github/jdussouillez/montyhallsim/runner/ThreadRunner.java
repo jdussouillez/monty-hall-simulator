@@ -3,6 +3,8 @@ package com.github.jdussouillez.montyhallsim.runner;
 import com.github.jdussouillez.montyhallsim.Loggers;
 import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -17,6 +19,11 @@ public class ThreadRunner extends Runner {
      * Number of threads
      */
     protected final int nbThreads;
+
+    /**
+     * Execution time (in milliseconds)
+     */
+    protected long executionTime;
 
     /**
      * Constructor
@@ -35,13 +42,14 @@ public class ThreadRunner extends Runner {
 
     @Override
     public int run() {
+        var start = Instant.now();
         var executorService = Executors.newFixedThreadPool(nbThreads);
         var tasks = new ArrayList<Future<Boolean>>();
         for (var i = 0; i < nbGames; i++) {
             tasks.add(executorService.submit(this::play));
         }
         executorService.shutdown();
-        return tasks.stream()
+        var carWins = tasks.stream()
             .mapToInt(task -> {
                 try {
                     return task.get() ? 1 : 0;
@@ -52,5 +60,12 @@ public class ThreadRunner extends Runner {
                 }
             })
             .sum();
+        executionTime = Duration.between(start, Instant.now()).toMillis();
+        return carWins;
+    }
+
+    @Override
+    public long executionTime() {
+        return executionTime;
     }
 }

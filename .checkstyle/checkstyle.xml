@@ -44,7 +44,7 @@
     </module>
     <!-- Forbid "now()" calls on dates -->
     <module name="RegexpMultiline">
-        <property name="format" value="\.now\(\s*\)"/>
+        <property name="format" value="LocalDateTime\.now\(\s*\)"/>
         <property name="message" value="Calls to now() are forbidden. Use now(ZoneOffset.UTC) instead."/>
         <property name="matchAcrossLines" value="true"/>
         <property name="fileExtensions" value=".java"/>

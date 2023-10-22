@@ -36,7 +36,14 @@ abstract class Runner {
      *
      * @return The number of car wins
      */
-    protected abstract int run();
+    public abstract int run();
+
+    /**
+     * Return the total execution time of the simulations
+     *
+     * @return Execution time in seconds
+     */
+    public abstract long executionTime();
 
     /**
      * Play a game

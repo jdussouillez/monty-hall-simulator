@@ -88,7 +88,13 @@ public class RunSimulationCommand implements Callable<Integer> {
         if (nbWins > 0) {
             winPercent = ((double) nbWins / nbGames) * 100;
         }
-        Loggers.MAIN.info("Simulations completed: {} simulations run, {} cars won ({}%)", nbGames, nbWins, winPercent);
+        Loggers.MAIN.info(
+            "Simulations completed: {} simulations run in {}ms, {} cars won ({}%)",
+            nbGames,
+            runner.executionTime(),
+            nbWins,
+            winPercent
+        );
         return 0;
     }
 }
