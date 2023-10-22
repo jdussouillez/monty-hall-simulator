@@ -2,6 +2,7 @@ package com.github.jdussouillez.montyhallsim;
 
 import com.github.jdussouillez.montyhallsim.bean.CarDoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.PlayerStrategy;
+import com.github.jdussouillez.montyhallsim.runner.ThreadRunner;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -17,7 +18,7 @@ public final class Main {
      */
     public static void main(final String[] args) {
         var nbSimulations = 10_000;
-        var runner = new Runner(
+        var runner = new ThreadRunner(
             new CarDoorStrategy.Random(),
             new PlayerStrategy() {
                 @Override

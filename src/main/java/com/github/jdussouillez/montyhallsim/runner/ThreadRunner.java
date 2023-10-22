@@ -1,34 +1,17 @@
-package com.github.jdussouillez.montyhallsim;
+package com.github.jdussouillez.montyhallsim.runner;
 
+import com.github.jdussouillez.montyhallsim.Loggers;
 import com.github.jdussouillez.montyhallsim.bean.CarDoorStrategy;
-import com.github.jdussouillez.montyhallsim.bean.Game;
 import com.github.jdussouillez.montyhallsim.bean.PlayerStrategy;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import lombok.RequiredArgsConstructor;
 
 /**
- * Simulation runner
+ * Simulation thread runner
  */
-@RequiredArgsConstructor
-public class Runner {
-
-    /**
-     * Car door strategy
-     */
-    protected final CarDoorStrategy carDoorStrategy;
-
-    /**
-     * Player strategy
-     */
-    protected final PlayerStrategy playerStrategy;
-
-    /**
-     * Number of games to play
-     */
-    protected final int nbGames;
+public class ThreadRunner extends Runner {
 
     /**
      * Number of threads
@@ -36,15 +19,25 @@ public class Runner {
     protected final int nbThreads;
 
     /**
-     * Run the simulations
+     * Constructor
      *
-     * @return The number of car wins
+     * @param carDoorStrategy Car door strategy
+     * @param playerStrategy Player strategy
+     * @param nbGames Number of games
+     * @param nbThreads Number of threads
      */
+    public ThreadRunner(final CarDoorStrategy carDoorStrategy, final PlayerStrategy playerStrategy, final int nbGames,
+        final int nbThreads) {
+        super(carDoorStrategy, playerStrategy, nbGames);
+        this.nbThreads = nbThreads;
+    }
+
+    @Override
     public int run() {
         var executorService = Executors.newFixedThreadPool(nbThreads);
         var tasks = new ArrayList<Future<Boolean>>();
         for (var i = 0; i < nbGames; i++) {
-            tasks.add(executorService.submit(() -> new Game(carDoorStrategy, playerStrategy).play()));
+            tasks.add(executorService.submit(this::play));
         }
         executorService.shutdown();
         return tasks.stream()
