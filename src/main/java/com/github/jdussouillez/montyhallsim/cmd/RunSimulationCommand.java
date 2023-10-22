@@ -39,9 +39,9 @@ public class RunSimulationCommand implements Callable<Integer> {
     @Option(
         names = {"-g", "--games"},
         paramLabel = "GAMES",
-        description = "Number of games. Default is 10'000."
+        description = "Number of games. Default is 500k."
     )
-    private int nbGames = 10_000;
+    private int nbGames = 500_000;
 
     /**
      * Car door strategy
