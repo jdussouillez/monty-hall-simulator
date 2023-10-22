@@ -28,12 +28,47 @@
         <property name="max" value="120"/>
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
     </module>
-
+    <!-- Forbid "printStackTrace" calls -->
+    <module name="RegexpMultiline">
+        <property name="format" value="\.printStackTrace\(\s*\)"/>
+        <property name="message" value="Calls to printStackTrace are forbidden. Rethow or handle the exception."/>
+        <property name="matchAcrossLines" value="true"/>
+        <property name="fileExtensions" value=".java"/>
+    </module>
+    <!-- Forbid "println" calls and similar methods -->
+    <module name="RegexpMultiline">
+        <property name="format" value="System\.(out)|(err)\.print(ln)?\("/>
+        <property name="message" value="Calls to System streams are forbidden. Use a logger instead."/>
+        <property name="matchAcrossLines" value="true"/>
+        <property name="fileExtensions" value=".java"/>
+    </module>
+    <!-- Forbid "now()" calls on dates -->
+    <module name="RegexpMultiline">
+        <property name="format" value="\.now\(\s*\)"/>
+        <property name="message" value="Calls to now() are forbidden. Use now(ZoneOffset.UTC) instead."/>
+        <property name="matchAcrossLines" value="true"/>
+        <property name="fileExtensions" value=".java"/>
+    </module>
+    <!-- Forbid comments starting with a lowercase letter (disabled by default because reports some false positives) -->
+    <!--
+    <module name="RegexpSingleline">
+        <property name="format" value="// (?!http.*)[a-z].*"/>
+        <property name="message" value="Comments must start with an uppercase letter."/>
+        <property name="fileExtensions" value=".java"/>
+    </module>
+    -->
+    <!-- Mandatory uppercase in Javadoc comments -->
+    <module name="RegexpSingleline">
+        <property name="format" value="\* @(return|deprecated|throws [\w]+|param [\w&gt;&lt;]+) [a-z].*"/>
+        <property name="message" value="Javadoc value description must start with an uppercase letter."/>
+        <property name="fileExtensions" value=".java"/>
+    </module>
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
         <module name="OuterTypeNumber"/>
         <module name="ConstantName">
-            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+            <!-- https://checkstyle.sourceforge.io/config_naming.html#ConstantName_Examples -->
+            <property name="format" value="^log(ger)?$|^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
         </module>
         <module name="IllegalType">
             <property
@@ -259,6 +294,8 @@
             <property name="allowLineBreaks" value="true"/>
         </module>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="WhitespaceAfter"/>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
         <module name="OperatorWrap">
@@ -294,6 +331,7 @@
             <property
                 name="forbiddenSummaryFragments"
                 value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
+            <!-- To ignore the warning messages "First sentence of Javadoc is missing an ending period" -->
             <property name="period" value=""/>
         </module>
         <module name="JavadocParagraph"/>
@@ -410,25 +448,12 @@
         <module name="IllegalThrows"/>
         <module name="NoCodeInFile"/>
         <module name="NoClone"/>
-        <!-- Forbid "printStackTrace" calls -->
-        <module name="RegexpSinglelineJava">
-            <property name="format" value="\.printStackTrace\(\)"/>
-            <property name="message" value="Calls to printStackTrace are forbidden. Rethow or handle the exception."/>
-            <property name="ignoreComments" value="true"/>
-        </module>
-        <!-- Forbid "println" calls and similar methods -->
-        <module name="RegexpSinglelineJava">
-            <property name="format" value="System\.(out|err)\.print(ln)?"/>
-            <property name="message" value="Calls to System streams are forbidden. Use a logger instead."/>
-            <property name="ignoreComments" value="true"/>
-        </module>
         <!-- Forbid "peek" calls on streams -->
         <module name="RegexpSinglelineJava">
             <property name="format" value="\.peek\("/>
             <property name="message" value="Calls to Stream::peek are forbidden. Use Stream::map instead."/>
             <property name="ignoreComments" value="true"/>
         </module>
-
         <!-- Sevntu checkstyle (non standards rules) -->
         <!-- http://sevntu-checkstyle.github.io/sevntu.checkstyle/ -->
         <module name="ForbidCCommentsInMethods"/>
