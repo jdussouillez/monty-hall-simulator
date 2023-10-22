@@ -153,9 +153,6 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-                        <configuration>
-                            <skip>${test.unit.skip}</skip>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>post-unit-test</id>
@@ -164,7 +161,6 @@
                             <goal>report</goal>
                         </goals>
                         <configuration>
-                            <skip>${test.unit.skip}</skip>
                         </configuration>
                     </execution>
                 </executions>
@@ -176,12 +172,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <skipTests>${test.unit.skip}</skipTests>
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
                     <argLine>
-                        -Dnet.bytebuddy.experimental=true -Dfile.encoding=${project.reporting.outputEncoding}
+                        @{argLine} -Dnet.bytebuddy.experimental=true -Dfile.encoding=${project.reporting.outputEncoding}
                     </argLine>
                     <trimStackTrace>false</trimStackTrace>
                 </configuration>
