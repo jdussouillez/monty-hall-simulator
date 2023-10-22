@@ -12,12 +12,17 @@ public class Game {
     /**
      * Car door strategy
      */
-    protected final CarDoorStrategy carDoorStrategy;
+    protected final DoorStrategy carDoorStrategy;
 
     /**
-     * Player strategy
+     * Player door strategy
      */
-    protected final PlayerStrategy playerStrategy;
+    protected final DoorStrategy playerDoorStrategy;
+
+    /**
+     * Player switch strategy
+     */
+    protected final PlayerSwitchStrategy playerSwitchStrategy;
 
     /**
      * Doors
@@ -38,11 +43,14 @@ public class Game {
      * Create a new game
      *
      * @param carDoorStrategy Car door strategy
-     * @param playerStrategy Player strategy
+     * @param playerDoorStrategy Player door strategy
+     * @param playerSwitchStrategy Player switch strategy
      */
-    public Game(final CarDoorStrategy carDoorStrategy, final PlayerStrategy playerStrategy) {
+    public Game(final DoorStrategy carDoorStrategy, final DoorStrategy playerDoorStrategy,
+        final PlayerSwitchStrategy playerSwitchStrategy) {
         this.carDoorStrategy = carDoorStrategy;
-        this.playerStrategy = playerStrategy;
+        this.playerDoorStrategy = playerDoorStrategy;
+        this.playerSwitchStrategy = playerSwitchStrategy;
         this.doors = initDoors(carDoorStrategy);
     }
 
@@ -57,9 +65,9 @@ public class Game {
      * @return True if the player won the car, false otherwise
      */
     public boolean play() {
-        choose(playerStrategy.firstDoor());
+        choose(playerDoorStrategy.getDoor());
         openNoCar();
-        if (playerStrategy.switchDoor()) {
+        if (playerSwitchStrategy.switchDoor()) {
             switchDoor();
         } else {
             keep();
@@ -187,9 +195,9 @@ public class Game {
      * @param carDoorStrategy Car door strategy
      * @return The doors
      */
-    protected static Door[] initDoors(final CarDoorStrategy carDoorStrategy) {
+    protected static Door[] initDoors(final DoorStrategy carDoorStrategy) {
         var doors = new Door[Constants.NB_DOORS];
-        var carDoorNumber = carDoorStrategy.getCarDoor();
+        var carDoorNumber = carDoorStrategy.getDoor();
         for (int i = 0; i < doors.length; i++) {
             doors[i] = new Door(i, i == carDoorNumber);
         }

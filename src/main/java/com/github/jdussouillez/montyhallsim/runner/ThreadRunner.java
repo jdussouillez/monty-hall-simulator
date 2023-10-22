@@ -1,8 +1,8 @@
 package com.github.jdussouillez.montyhallsim.runner;
 
 import com.github.jdussouillez.montyhallsim.Loggers;
-import com.github.jdussouillez.montyhallsim.bean.CarDoorStrategy;
-import com.github.jdussouillez.montyhallsim.bean.PlayerStrategy;
+import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
+import com.github.jdussouillez.montyhallsim.bean.PlayerSwitchStrategy;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -22,13 +22,14 @@ public class ThreadRunner extends Runner {
      * Constructor
      *
      * @param carDoorStrategy Car door strategy
-     * @param playerStrategy Player strategy
+     * @param playerDoorStrategy Player door strategy
+     * @param playerSwitchStrategy Player door strategy
      * @param nbGames Number of games
      * @param nbThreads Number of threads
      */
-    public ThreadRunner(final CarDoorStrategy carDoorStrategy, final PlayerStrategy playerStrategy, final int nbGames,
-        final int nbThreads) {
-        super(carDoorStrategy, playerStrategy, nbGames);
+    public ThreadRunner(final DoorStrategy carDoorStrategy, final DoorStrategy playerDoorStrategy,
+        final PlayerSwitchStrategy playerSwitchStrategy, final int nbGames, final int nbThreads) {
+        super(carDoorStrategy, playerDoorStrategy, playerSwitchStrategy, nbGames);
         this.nbThreads = nbThreads;
     }
 

@@ -63,19 +63,10 @@ public class GameTest {
      */
     private static Game spyGame(final int carDoor, final int firstDoor, final boolean switchDoor) {
         var game = new Game(
-            new CarDoorStrategy.Fixed(carDoor),
-            new PlayerStrategy() {
-
-                @Override
-                public int firstDoor() {
-                    return firstDoor;
-                }
-
-                @Override
-                public boolean switchDoor() {
-                    return switchDoor;
-                }
-            });
+            new DoorStrategy.Fixed(carDoor),
+            new DoorStrategy.Fixed(firstDoor),
+            new PlayerSwitchStrategy.Fixed(switchDoor)
+        );
         return Mockito.spy(game);
     }
 }

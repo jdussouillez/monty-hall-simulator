@@ -4,22 +4,22 @@ import com.github.jdussouillez.montyhallsim.Constants;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Car door choosing strategy
+ * Door strategy
  */
 @FunctionalInterface
-public interface CarDoorStrategy {
+public interface DoorStrategy {
 
     /**
-     * Get the car door number
+     * Get the door number
      *
-     * @return The car door number
+     * @return The door number
      */
-    public int getCarDoor();
+    int getDoor();
 
     /**
      * Random door strategy
      */
-    public static class Random implements CarDoorStrategy {
+    public static class Random implements DoorStrategy {
 
         /**
          * Random generator
@@ -27,20 +27,16 @@ public interface CarDoorStrategy {
         private final java.util.Random randomGenerator = new java.util.Random();
 
         @Override
-        public int getCarDoor() {
+        public int getDoor() {
             return randomGenerator.nextInt(Constants.NB_DOORS);
         }
     }
 
     /**
      * Fixed door strategy
-     *
-     * <p>
-     * Define a fixed car door number for each game
-     * </p>
      */
     @RequiredArgsConstructor
-    public static class Fixed implements CarDoorStrategy {
+    public static class Fixed implements DoorStrategy {
 
         /**
          * Door number
@@ -48,7 +44,7 @@ public interface CarDoorStrategy {
         private final int door;
 
         @Override
-        public int getCarDoor() {
+        public int getDoor() {
             return door;
         }
     }
