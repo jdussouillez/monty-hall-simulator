@@ -74,7 +74,7 @@ public class Game {
      * @param door Door number
      */
     protected void choose(final int door) {
-        Loggers.MAIN.debug("Player chooses door {}", door);
+        Loggers.MAIN.trace("Player chooses door {}", door);
         playerDoor = door;
     }
 
@@ -82,14 +82,14 @@ public class Game {
      * Keep the selected door
      */
     protected void keep() {
-        Loggers.MAIN.debug("Player keeps door {}", playerDoor);
+        Loggers.MAIN.trace("Player keeps door {}", playerDoor);
     }
 
     /**
      * Switch player door
      */
     protected void switchDoor() {
-        Loggers.MAIN.debug("Player switches door");
+        Loggers.MAIN.trace("Player switches door");
         var door = Arrays.stream(doors)
             .filter(d -> !d.isOpen())
             .filter(d -> d.number() != playerDoor)
@@ -154,7 +154,7 @@ public class Game {
      */
     protected void open(final int doorNumber) {
         var door = doors[doorNumber];
-        Loggers.MAIN.debug(
+        Loggers.MAIN.trace(
             "Host opens door {}: {}",
             () -> doorNumber,
             () -> door.car() ? "car" : "goat"
@@ -174,10 +174,11 @@ public class Game {
         openLastDoor();
         wonCar = doors[playerDoor].car();
         if (wonCar) {
-            Loggers.MAIN.debug("Player wins the car! :-D");
+            Loggers.MAIN.trace("Player wins the car! :-D");
         } else {
-            Loggers.MAIN.debug("Player wins a goat! :-(");
+            Loggers.MAIN.trace("Player wins a goat! :-(");
         }
+        Loggers.MAIN.debug(this);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.github.jdussouillez.montyhallsim;
 
 import com.github.jdussouillez.montyhallsim.bean.CarDoorStrategy;
-import com.github.jdussouillez.montyhallsim.bean.Game;
 import com.github.jdussouillez.montyhallsim.bean.PlayerStrategy;
 import lombok.experimental.UtilityClass;
 
@@ -17,18 +16,33 @@ public final class Main {
      * @param args Arguments
      */
     public static void main(final String[] args) {
-        var g = new Game(new CarDoorStrategy.Fixed(0), new PlayerStrategy() {
-            @Override
-            public int firstDoor() {
-                return 0;
-            }
+        var nbSimulations = 10_000;
+        var runner = new Runner(
+            new CarDoorStrategy.Random(),
+            new PlayerStrategy() {
+                @Override
+                public int firstDoor() {
+                    return 0;
+                }
 
-            @Override
-            public boolean switchDoor() {
-                return true;
-            }
-        });
-        g.play();
-        Loggers.MAIN.info(g);
+                @Override
+                public boolean switchDoor() {
+                    return true;
+                }
+            },
+            nbSimulations,
+            16
+        );
+        var nbCarWins = runner.run();
+        double winPercentage = 0;
+        if (nbCarWins > 0) {
+            winPercentage = ((double) nbCarWins / nbSimulations) * 100;
+        }
+        Loggers.MAIN.info(
+            "Simulations completed: {} simulations run, {} cars won ({}%)",
+            nbSimulations,
+            nbCarWins,
+            winPercentage
+        );
     }
 }
