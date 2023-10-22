@@ -133,8 +133,8 @@
                                     <version>17.0</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <message>Maven 3.8+ required</message>
-                                    <version>3.8</version>
+                                    <message>Maven 3.9+ required</message>
+                                    <version>3.9</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
