@@ -65,7 +65,7 @@ public class GameTest {
         var game = new Game(
             new DoorStrategy.Fixed(carDoor),
             new DoorStrategy.Fixed(firstDoor),
-            new PlayerSwitchStrategy.Fixed(switchDoor)
+            new SwitchStrategy.Fixed(switchDoor)
         );
         return Mockito.spy(game);
     }

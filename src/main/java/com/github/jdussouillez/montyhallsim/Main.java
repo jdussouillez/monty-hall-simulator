@@ -1,5 +1,6 @@
 package com.github.jdussouillez.montyhallsim;
 
+import com.github.jdussouillez.montyhallsim.cmd.RunSimulationCommand;
 import lombok.experimental.UtilityClass;
 import picocli.CommandLine;
 

@@ -2,7 +2,7 @@ package com.github.jdussouillez.montyhallsim.runner;
 
 import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.Game;
-import com.github.jdussouillez.montyhallsim.bean.PlayerSwitchStrategy;
+import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -22,9 +22,9 @@ abstract class Runner {
     protected final DoorStrategy playerDoorStrategy;
 
     /**
-     * Player switch strategy
+     * Switch strategy
      */
-    protected final PlayerSwitchStrategy playerSwitchStrategy;
+    protected final SwitchStrategy switchStrategy;
 
     /**
      * Number of games to play
@@ -44,6 +44,6 @@ abstract class Runner {
      * @return True if the player won the cart
      */
     protected boolean play() {
-        return new Game(carDoorStrategy, playerDoorStrategy, playerSwitchStrategy).play();
+        return new Game(carDoorStrategy, playerDoorStrategy, switchStrategy).play();
     }
 }

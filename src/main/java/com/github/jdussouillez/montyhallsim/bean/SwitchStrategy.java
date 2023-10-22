@@ -3,9 +3,9 @@ package com.github.jdussouillez.montyhallsim.bean;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Player switch strategy
+ * Switch strategy
  */
-public interface PlayerSwitchStrategy {
+public interface SwitchStrategy {
 
     /**
      * Player will switch door
@@ -17,7 +17,7 @@ public interface PlayerSwitchStrategy {
     /**
      * Random switch strategy
      */
-    public static class Random implements PlayerSwitchStrategy {
+    public static class Random implements SwitchStrategy {
 
         /**
          * Random generator
@@ -34,7 +34,7 @@ public interface PlayerSwitchStrategy {
      * Fixed switch strategy
      */
     @RequiredArgsConstructor
-    public static class Fixed implements PlayerSwitchStrategy {
+    public static class Fixed implements SwitchStrategy {
 
         /**
          * Switch door

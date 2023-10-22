@@ -20,9 +20,9 @@ public class Game {
     protected final DoorStrategy playerDoorStrategy;
 
     /**
-     * Player switch strategy
+     * Switch strategy
      */
-    protected final PlayerSwitchStrategy playerSwitchStrategy;
+    protected final SwitchStrategy switchStrategy;
 
     /**
      * Doors
@@ -44,13 +44,13 @@ public class Game {
      *
      * @param carDoorStrategy Car door strategy
      * @param playerDoorStrategy Player door strategy
-     * @param playerSwitchStrategy Player switch strategy
+     * @param switchStrategy Switch strategy
      */
     public Game(final DoorStrategy carDoorStrategy, final DoorStrategy playerDoorStrategy,
-        final PlayerSwitchStrategy playerSwitchStrategy) {
+        final SwitchStrategy switchStrategy) {
         this.carDoorStrategy = carDoorStrategy;
         this.playerDoorStrategy = playerDoorStrategy;
-        this.playerSwitchStrategy = playerSwitchStrategy;
+        this.switchStrategy = switchStrategy;
         this.doors = initDoors(carDoorStrategy);
     }
 
@@ -67,7 +67,7 @@ public class Game {
     public boolean play() {
         choose(playerDoorStrategy.getDoor());
         openNoCar();
-        if (playerSwitchStrategy.switchDoor()) {
+        if (switchStrategy.switchDoor()) {
             switchDoor();
         } else {
             keep();

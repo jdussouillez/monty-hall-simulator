@@ -6,16 +6,16 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests of {@link com.github.jdussouillez.montyhallsim.bean.PlayerSwitchStrategy}
+ * Tests of {@link com.github.jdussouillez.montyhallsim.bean.SwitchStrategy}
  */
-public class PlayerSwitchStrategyTest {
+public class SwitchStrategyTest {
 
     /*
      * Random
      */
     @RepeatedTest(1_000)
     public void testRandom() {
-        var strategy = new PlayerSwitchStrategy.Random();
+        var strategy = new SwitchStrategy.Random();
         strategy.switchDoor();
     }
 
@@ -24,7 +24,7 @@ public class PlayerSwitchStrategyTest {
      */
     @Test
     public void testFixed() {
-        assertTrue(new PlayerSwitchStrategy.Fixed(true).switchDoor());
-        assertFalse(new PlayerSwitchStrategy.Fixed(false).switchDoor());
+        assertTrue(new SwitchStrategy.Fixed(true).switchDoor());
+        assertFalse(new SwitchStrategy.Fixed(false).switchDoor());
     }
 }
