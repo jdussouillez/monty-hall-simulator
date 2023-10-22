@@ -78,7 +78,7 @@ public class RunSimulationCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        // TODO: handle virtual thread
+        // TODO: handle virtual thread in JDK 21
         if (nbThreads == 0) {
             nbThreads = Runtime.getRuntime().availableProcessors();
         }
