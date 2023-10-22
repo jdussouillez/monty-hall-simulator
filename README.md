@@ -42,3 +42,27 @@ java -jar target/monty-all-simulator-jar-with-dependencies.jar -t os -n 2 -g1000
 java -jar target/monty-all-simulator-jar-with-dependencies.jar -g100000 -cds=2 -pds=1 -ss=n
 # Simulations completed: 100000 simulations run in 578ms, 0 cars won (0.0%)
 ```
+
+- Run 3 games and see the game results
+```sh
+java -jar target/monty-all-simulator-jar-with-dependencies.jar -g3 -ss=n -v
+# Doors=[{G}, {C}, {G}] | wonCar=false
+# Doors=[{G}, {G}, {C}] | wonCar=true
+# Doors=[{G}, {C}, {G}] | wonCar=false
+# Simulations completed: 3 simulations run in 11ms, 1 cars won (33.33333333333333%)
+```
+
+- Run 1 game and see the game details (car is behind #1, player chooses #0 but switch and win)
+```sh
+java -jar target/monty-all-simulator-jar-with-dependencies.jar -g1 -cds=1 -pds=0 -ss=a -vv
+# Doors initialized with strategy com.github.jdussouillez.montyhallsim.bean.DoorStrategy$Fixed@6956de9, car door is 1
+# Player chooses door 0
+# Host opens door 2: goat
+# Player switches door
+# Player chooses door 1
+# Host opens door 0: goat
+# Host opens door 1: car
+# Player wins the car! :-D
+# Doors=[{G}, {C}, {G}] | wonCar=true
+# Simulations completed: 1 simulations run in 18ms, 1 cars won (100.0%)
+```

@@ -5,6 +5,8 @@ import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
 import com.github.jdussouillez.montyhallsim.runner.ThreadRunner;
 import java.util.concurrent.Callable;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import picocli.CommandLine.Option;
 
 /**
@@ -28,8 +30,11 @@ public class RunSimulationCommand implements Callable<Integer> {
     @Option(
         names = {"-n", "--threads"},
         paramLabel = "THREADS",
-        description = "Number of threads. By default, use the available processors in the JVM."
-            + " Only applicable when thread type is \"os\"."
+        description = {
+            "Number of threads.",
+            "By default, use the available processors in the JVM.",
+            "Only applicable when thread type is \"os\"."
+        }
     )
     private int nbThreads;
 
@@ -49,7 +54,10 @@ public class RunSimulationCommand implements Callable<Integer> {
     @Option(
         names = {"-cds", "--car-door-strategy"},
         paramLabel = "STRATEGY",
-        description = "Car door strategy. 0, 1 or 2 for fixed car door. \"r\" for random. Default is random.",
+        description = {
+            "Car door strategy. 0, 1 or 2 for fixed car door. \"r\" for random.",
+            "Default is random."
+        },
         converter = DoorStrategyConverter.class
     )
     private DoorStrategy carDoorStrategy = new DoorStrategy.Random();
@@ -60,7 +68,10 @@ public class RunSimulationCommand implements Callable<Integer> {
     @Option(
         names = {"-pds", "--player-door-strategy"},
         paramLabel = "STRATEGY",
-        description = "Player door strategy. 0, 1 or 2 for fixed car door. \"r\" for random. Default is random.",
+        description = {
+            "Player door strategy. 0, 1 or 2 for fixed car door. \"r\" for random.",
+            "Default is random."
+        },
         converter = DoorStrategyConverter.class
     )
     private DoorStrategy playerDoorStrategy = new DoorStrategy.Random();
@@ -71,13 +82,29 @@ public class RunSimulationCommand implements Callable<Integer> {
     @Option(
         names = {"-ss", "--switch-strategy"},
         paramLabel = "STRATEGY",
-        description = "Switch strategy. \"n\" for never, \"a\" for always, \"r\" for random. Default is random.",
+        description = {
+            "Switch strategy. \"n\" for never, \"a\" for always, \"r\" for random.",
+            "Default is random."
+        },
         converter = SwitchStrategyConverter.class
     )
     private SwitchStrategy switchStrategy = new SwitchStrategy.Random();
 
+    /**
+     * Verbosity
+     */
+    @Option(
+        names = {"-v", "--verbose"},
+        description = {
+            "Verbose mode. Two levels are possible: `-v -v` or `-vv`"
+        })
+    private boolean[] verbosity = new boolean[0];
+
     @Override
     public Integer call() throws Exception {
+        if (verbosity.length > 0) {
+            setVerbosity(verbosity.length);
+        }
         // TODO: handle virtual thread in JDK 21
         if (nbThreads == 0) {
             nbThreads = Runtime.getRuntime().availableProcessors();
@@ -96,5 +123,15 @@ public class RunSimulationCommand implements Callable<Integer> {
             winPercent
         );
         return 0;
+    }
+
+    /**
+     * Set the verbosity
+     *
+     * @param verbosity Verbosity
+     */
+    private void setVerbosity(final int verbosity) {
+        var level = verbosity <= 1 ? Level.DEBUG : Level.ALL;
+        Configurator.setLevel(Loggers.MAIN, level);
     }
 }
