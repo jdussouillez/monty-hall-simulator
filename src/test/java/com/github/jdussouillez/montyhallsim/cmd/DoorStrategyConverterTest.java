@@ -37,8 +37,10 @@ public class DoorStrategyConverterTest {
     }
 
     @Test
-    public void testConvertFixedInvalid() throws Exception {
+    public void testConvertFixedInvalidDoorNumber() throws Exception {
         var ex = assertThrows(IllegalArgumentException.class, () -> new DoorStrategyConverter().convert("3"));
+        assertEquals("Invalid door number", ex.getMessage());
+        ex = assertThrows(IllegalArgumentException.class, () -> new DoorStrategyConverter().convert("-1"));
         assertEquals("Invalid door number", ex.getMessage());
     }
 }
