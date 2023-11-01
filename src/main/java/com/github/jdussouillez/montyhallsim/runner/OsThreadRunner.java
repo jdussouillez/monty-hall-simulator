@@ -2,6 +2,7 @@ package com.github.jdussouillez.montyhallsim.runner;
 
 import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,11 +33,14 @@ public class OsThreadRunner extends ThreadRunner {
 
     @Override
     public String toString() {
-        return String.format("ThreadRunner{%d}", nbThreads);
+        return String.format("OsThreadRunner(%d)", nbThreads);
     }
 
     @Override
     protected ExecutorService executorService() {
-        return Executors.newFixedThreadPool(nbThreads);
+        var factory = new ThreadFactoryBuilder()
+            .setNameFormat("runner-%d")
+            .build();
+        return Executors.newFixedThreadPool(nbThreads, factory);
     }
 }

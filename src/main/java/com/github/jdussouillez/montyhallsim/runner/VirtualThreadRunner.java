@@ -24,11 +24,6 @@ public class VirtualThreadRunner extends ThreadRunner {
     }
 
     @Override
-    public String toString() {
-        return "VirtualThreadRunner";
-    }
-
-    @Override
     protected ExecutorService executorService() {
         return Executors.newVirtualThreadPerTaskExecutor();
     }

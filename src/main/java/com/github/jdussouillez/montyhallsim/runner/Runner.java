@@ -38,6 +38,11 @@ public abstract class Runner {
      */
     public abstract int run();
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
     /**
      * Play a game
      *

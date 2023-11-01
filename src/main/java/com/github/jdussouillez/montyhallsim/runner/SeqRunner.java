@@ -33,4 +33,9 @@ public class SeqRunner extends Runner {
             .map(i -> play() ? 1 : 0)
             .sum();
     }
+
+    @Override
+    public String toString() {
+        return "SeqRunner";
+    }
 }
