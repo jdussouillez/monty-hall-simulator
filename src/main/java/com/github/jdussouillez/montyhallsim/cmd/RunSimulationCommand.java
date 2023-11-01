@@ -7,6 +7,8 @@ import com.github.jdussouillez.montyhallsim.runner.OsThreadRunner;
 import com.github.jdussouillez.montyhallsim.runner.Runner;
 import com.github.jdussouillez.montyhallsim.runner.SeqRunner;
 import com.github.jdussouillez.montyhallsim.runner.VirtualThreadRunner;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.Callable;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -114,17 +116,15 @@ public class RunSimulationCommand implements Callable<Integer> {
         }
         var runner = createRunner();
         Loggers.MAIN.debug("Running on runner {}", runner::toString);
+        var start = Instant.now();
         var nbWins = runner.run();
-        double winPercent = 0;
-        if (nbWins > 0) {
-            winPercent = ((double) nbWins / nbGames) * 100;
-        }
+        var executionTime = Duration.between(start, Instant.now()).toMillis();
         Loggers.MAIN.info(
             "Simulations completed: {} simulations run in {}ms, {} cars won ({}%)",
-            nbGames,
-            runner.executionTime(),
-            nbWins,
-            winPercent
+            () -> nbGames,
+            () -> executionTime,
+            () -> nbWins,
+            () -> ((double) nbWins / nbGames) * 100
         );
         return 0;
     }

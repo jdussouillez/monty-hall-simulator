@@ -39,13 +39,6 @@ public abstract class Runner {
     public abstract int run();
 
     /**
-     * Return the total execution time of the simulations
-     *
-     * @return Execution time in seconds
-     */
-    public abstract long executionTime();
-
-    /**
      * Play a game
      *
      * @return True if the player won the cart

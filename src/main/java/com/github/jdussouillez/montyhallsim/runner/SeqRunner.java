@@ -2,8 +2,6 @@ package com.github.jdussouillez.montyhallsim.runner;
 
 import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.stream.IntStream;
 
 /**
@@ -31,16 +29,8 @@ public class SeqRunner extends Runner {
 
     @Override
     public int run() {
-        var start = Instant.now();
-        var carWins = IntStream.range(0, nbGames)
+        return IntStream.range(0, nbGames)
             .map(i -> play() ? 1 : 0)
             .sum();
-        executionTime = Duration.between(start, Instant.now()).toMillis();
-        return carWins;
-    }
-
-    @Override
-    public long executionTime() {
-        return executionTime;
     }
 }
