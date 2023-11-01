@@ -5,6 +5,7 @@ import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
 import com.github.jdussouillez.montyhallsim.runner.OsThreadRunner;
 import com.github.jdussouillez.montyhallsim.runner.Runner;
+import com.github.jdussouillez.montyhallsim.runner.SeqRunner;
 import com.github.jdussouillez.montyhallsim.runner.VirtualThreadRunner;
 import java.util.concurrent.Callable;
 import org.apache.logging.log4j.Level;
@@ -20,11 +21,15 @@ public class RunSimulationCommand implements Callable<Integer> {
      * Thread type
      */
     @Option(
-        names = {"-t", "--thread-type"},
-        paramLabel = "THREAD_TYPE",
-        description = "Thread type (\"os\" or \"virtual\"). Default is \"os\"."
+        names = {"-e", "--execution-type"},
+        paramLabel = "EXECUTION_TYPE",
+        description = {
+            "Execution type",
+            "(\"s\" for sequential, \"t\" for threads or \"v\" for virtual threads).",
+            "Default is \"s\"."
+        }
     )
-    private String threadType = "os";
+    private String executionType = "s";
 
     /**
      * Number of OS threads
@@ -107,13 +112,7 @@ public class RunSimulationCommand implements Callable<Integer> {
         if (verbosity.length > 0) {
             setVerbosity(verbosity.length);
         }
-        // TODO: handle virtual thread in JDK 21
-        if (nbThreads == 0) {
-            nbThreads = Runtime.getRuntime().availableProcessors();
-        }
-        Runner runner = threadType.equals("virtual")
-            ? new VirtualThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames)
-            : new OsThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames, nbThreads);
+        var runner = createRunner();
         Loggers.MAIN.debug("Running on runner {}", runner::toString);
         var nbWins = runner.run();
         double winPercent = 0;
@@ -138,5 +137,21 @@ public class RunSimulationCommand implements Callable<Integer> {
     private void setVerbosity(final int verbosity) {
         var level = verbosity <= 1 ? Level.DEBUG : Level.ALL;
         Configurator.setLevel(Loggers.MAIN, level);
+    }
+
+    /**
+     * Create the simulation runner
+     *
+     * @return The simulation runner
+     */
+    private Runner createRunner() {
+        if (nbThreads == 0) {
+            nbThreads = Runtime.getRuntime().availableProcessors();
+        }
+        return switch (executionType) {
+            case "t" -> new OsThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames, nbThreads);
+            case "v" -> new VirtualThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames);
+            default -> new SeqRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames);
+        };
     }
 }
