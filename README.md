@@ -21,26 +21,43 @@ java -jar target/monty-all-simulator-jar-with-dependencies.jar -h
 - Run 2 millions games, choose a random door but never switch
 ```sh
 java -jar target/monty-all-simulator-jar-with-dependencies.jar -g2000000 -ss=n
-# Simulations completed: 2000000 simulations run in 2991ms, 665995 cars won (33.29975%)
+# Simulations completed: 2000000 simulations run in 1246ms, 665980 cars won (33.299%)
 ```
 
 - Run 2 millions games, choose a random door and always switch
 ```sh
 java -jar target/monty-all-simulator-jar-with-dependencies.jar -g2000000 -ss=a
-# Simulations completed: 2000000 simulations run in 3334ms, 1332348 cars won (66.6174%)
+# Simulations completed: 2000000 simulations run in 1690ms, 1333701 cars won (66.68505%)
 ```
 
-- Run 100k games with 2 threads, only choose first door (door #0), never switch
-
+- Run 2 millions games, only choose first door (door #0), never switch
 ```sh
-java -jar target/monty-all-simulator-jar-with-dependencies.jar -t os -n 2 -g100000 -pds=0 -ss=n
-# Simulations completed: 100000 simulations run in 614ms, 33393 cars won (33.393%)
+java -jar target/monty-all-simulator-jar-with-dependencies.jar -g2000000 -pds=0 -ss=n
+# Simulations completed: 2000000 simulations run in 1176ms, 665379 cars won (33.268950000000004%)
+```
+
+- Run 10 millions games sequentially, always switch
+```sh
+java -jar target/monty-all-simulator-jar-with-dependencies.jar -g10000000 -ss=a -e=s
+# Simulations completed: 10000000 simulations run in 6875ms, 6667121 cars won (66.67121%)
+```
+
+- Run 10 millions games in 32 OS threads, always switch
+```sh
+java -jar target/monty-all-simulator-jar-with-dependencies.jar -g10000000 -ss=a -e=t -t=32
+# Simulations completed: 10000000 simulations run in 10236ms, 6666026 cars won (66.66026000000001%)
+```
+
+- Run 10 millions games in virtual threads, always switch
+```sh
+java -jar target/monty-all-simulator-jar-with-dependencies.jar -g10000000 -ss=a -e=v
+# Simulations completed: 10000000 simulations run in 8700ms, 6666156 cars won (66.66156%)
 ```
 
 - Run 100k games, car is always behind the third door (door #2), player only choose middle door (#1), never switch
 ```sh
 java -jar target/monty-all-simulator-jar-with-dependencies.jar -g100000 -cds=2 -pds=1 -ss=n
-# Simulations completed: 100000 simulations run in 578ms, 0 cars won (0.0%)
+# Simulations completed: 100000 simulations run in 173ms, 0 cars won (0.0%)
 ```
 
 - Run 3 games and see the game results
