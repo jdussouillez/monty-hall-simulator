@@ -11,14 +11,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Simulation thread runner
+ * Simulation virtual thread runner
  */
-public class ThreadRunner extends Runner {
-
-    /**
-     * Number of threads
-     */
-    protected final int nbThreads;
+public class VirtualThreadRunner extends Runner {
 
     /**
      * Execution time (in milliseconds)
@@ -32,18 +27,16 @@ public class ThreadRunner extends Runner {
      * @param playerDoorStrategy Player door strategy
      * @param switchStrategy Switch strategy
      * @param nbGames Number of games
-     * @param nbThreads Number of threads
      */
-    public ThreadRunner(final DoorStrategy carDoorStrategy, final DoorStrategy playerDoorStrategy,
-        final SwitchStrategy switchStrategy, final int nbGames, final int nbThreads) {
+    public VirtualThreadRunner(final DoorStrategy carDoorStrategy, final DoorStrategy playerDoorStrategy,
+        final SwitchStrategy switchStrategy, final int nbGames) {
         super(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames);
-        this.nbThreads = nbThreads;
     }
 
     @Override
     public int run() {
         var start = Instant.now();
-        try (var executorService = Executors.newFixedThreadPool(nbThreads)) {
+        try (var executorService = Executors.newVirtualThreadPerTaskExecutor()) {
             var tasks = new ArrayList<Future<Boolean>>();
             for (var i = 0; i < nbGames; i++) {
                 tasks.add(executorService.submit(this::play));
@@ -72,6 +65,6 @@ public class ThreadRunner extends Runner {
 
     @Override
     public String toString() {
-        return String.format("ThreadRunner{%d}", nbThreads);
+        return "VirtualThreadRunner";
     }
 }

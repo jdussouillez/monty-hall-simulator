@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
  * Simulation runner
  */
 @RequiredArgsConstructor
-abstract class Runner {
+public abstract class Runner {
 
     /**
      * Car door strategy

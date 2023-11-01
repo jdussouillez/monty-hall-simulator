@@ -4,6 +4,7 @@ import com.github.jdussouillez.montyhallsim.Loggers;
 import com.github.jdussouillez.montyhallsim.bean.DoorStrategy;
 import com.github.jdussouillez.montyhallsim.bean.SwitchStrategy;
 import com.github.jdussouillez.montyhallsim.runner.ThreadRunner;
+import com.github.jdussouillez.montyhallsim.runner.VirtualThreadRunner;
 import java.util.concurrent.Callable;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -109,7 +110,10 @@ public class RunSimulationCommand implements Callable<Integer> {
         if (nbThreads == 0) {
             nbThreads = Runtime.getRuntime().availableProcessors();
         }
-        var runner = new ThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames, nbThreads);
+        var runner = threadType.equals("virtual")
+            ? new VirtualThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames)
+            : new ThreadRunner(carDoorStrategy, playerDoorStrategy, switchStrategy, nbGames, nbThreads);
+        Loggers.MAIN.debug("Running on runner {}", runner::toString);
         var nbWins = runner.run();
         double winPercent = 0;
         if (nbWins > 0) {
