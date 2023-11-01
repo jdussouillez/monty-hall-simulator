@@ -37,12 +37,12 @@ public class RunSimulationCommand implements Callable<Integer> {
      * Number of OS threads
      */
     @Option(
-        names = {"-n", "--threads"},
+        names = {"-t", "--threads"},
         paramLabel = "THREADS",
         description = {
             "Number of threads.",
             "By default, use the available processors in the JVM.",
-            "Only applicable when thread type is \"os\"."
+            "Only applicable when execution type is \"t\"."
         }
     )
     private int nbThreads;
